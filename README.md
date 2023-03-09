@@ -1,7 +1,5 @@
 # Movie Data Dashboard Website
 
-<img src="" data-canonical-src="" style="display:block; margin-left: auto; margin-right: auto; width: 80%" alt="Trang chủ" />
-
 ## Giới thiệu / Introduction
 
 Movie Data API là website cho phép quản lý dữ liệu phim trên cơ sở dữ liệu.
