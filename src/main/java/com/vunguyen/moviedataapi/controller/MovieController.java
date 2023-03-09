@@ -82,33 +82,9 @@ public class MovieController {
     }
 
     @GetMapping("/search/title={keywordMovie}")
-    ResponseEntity<ResponseObject>findByTitle(@PathVariable String keywordMovie) {
-        List<Movie> foundMovie = repository.findByTitleContainingIgnoreCase(keywordMovie);
-        if (foundMovie.size() > 0) {
-            return ResponseEntity.status(HttpStatus.OK).body(
-                    new ResponseObject("ok", "query complete successfully", foundMovie)
-            );
-        }
-        else {
-            return ResponseEntity.status(HttpStatus.OK).body(
-                    new ResponseObject("fail", "Cannot find movie with title contains = " + keywordMovie, ""));
-        }
+    public Page<Movie>findByTitleKeywords(@PathVariable String keywordMovie, Pageable pagi) {
+        return repository.findByTitleContainingIgnoreCase(keywordMovie, pagi);
     }
-
-    @GetMapping("/search/genre={genreName}")
-    ResponseEntity<ResponseObject>findByGenre(@PathVariable String genreName) {
-        List<Movie> foundMovie = repository.findAllByGenres_NameIgnoreCase(genreName);
-        if (foundMovie.size() > 0) {
-            return ResponseEntity.status(HttpStatus.OK).body(
-                    new ResponseObject("ok", "query complete successfully", foundMovie)
-            );
-        }
-        else {
-            return ResponseEntity.status(HttpStatus.OK).body(
-                    new ResponseObject("fail", "Cannot find movie with genre = " + genreName, ""));
-        }
-    }
-
 
 }
 
