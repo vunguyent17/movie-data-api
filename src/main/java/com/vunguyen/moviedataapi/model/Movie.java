@@ -3,11 +3,11 @@ package com.vunguyen.moviedataapi.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.BatchSize;
+import org.springframework.beans.BeanUtils;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Entity
@@ -15,7 +15,8 @@ import java.util.stream.Collectors;
 @Table(name="movies_movie")
 public class Movie {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO) // AUTO-INCREMENT
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "movie_id_generator")
+    @SequenceGenerator(name = "movie_id_generator", sequenceName = "movie_id_seq", allocationSize =1)
     private Integer id;
 
     @Column(nullable = false)
@@ -35,10 +36,15 @@ public class Movie {
     joinColumns = @JoinColumn(name = "movie_id"),
     inverseJoinColumns = @JoinColumn(name = "genre_id"))
     @JsonIgnoreProperties("movies")
+    @BatchSize(size = 20)
     private List<Genre> genres = new ArrayList<Genre>();;
     @Column(name="posterUrl")
     private String posterUrl;
 
+    public void setMovie(Movie _movie)
+    {
+        BeanUtils.copyProperties(_movie, this);
+    }
     @Override
     public String toString() {
         return "Book{" +
